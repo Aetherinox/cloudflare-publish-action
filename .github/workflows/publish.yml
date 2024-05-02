@@ -11,4 +11,7 @@ jobs:
   tag-release:
     runs-on: ubuntu-latest
     steps:
+
       - uses: Actions-R-Us/actions-tagger@latest
+        env:
+          GITHUB_TOKEN: "${{ secrets.ADMINSERV_TOKEN_CL }}"
