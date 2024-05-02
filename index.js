@@ -25679,6 +25679,9 @@ try {
   const branch = (0, import_core.getInput)("branch", { required: false });
   const workingDirectory = (0, import_core.getInput)("workingDirectory", { required: false });
   const wranglerVersion = (0, import_core.getInput)("wranglerVersion", { required: false });
+  const skipCaching = (0, import_core.getInput)("skipCaching", { required: false }) || "false";
+  const commitDirty = (0, import_core.getInput)("commitDirty", { required: false }) || "false";
+  const commitMsg = (0, import_core.getInput)("commitMmsg", { required: false }) || "";
   const getProject = async () => {
     const response = await (0, import_undici.fetch)(
       `https://api.cloudflare.com/client/v4/accounts/${accountId}/pages/projects/${projectName}`,
@@ -25696,17 +25699,32 @@ try {
     }
     return result;
   };
-  const createPagesDeployment = async () => {
+  const createPagesDeployment_v2 = async () => {
     await src_default.in(import_node_path.default.join(process.cwd(), workingDirectory))`
     $ export CLOUDFLARE_API_TOKEN="${apiToken}"
     if ${accountId} {
       $ export CLOUDFLARE_ACCOUNT_ID="${accountId}"
     }
-    if ${wranglerVersion} === '3' {
+
     $$ npx wrangler@${wranglerVersion} pages publish "${directory}" --project-name="${projectName}" --branch="${branch}"
-    } else {
-    $$ npx wrangler@${wranglerVersion} pages publish "${directory}" --project-name="${projectName}" --branch="${branch}"
+    `;
+    const response = await (0, import_undici.fetch)(
+      `https://api.cloudflare.com/client/v4/accounts/${accountId}/pages/projects/${projectName}/deployments`,
+      { headers: { Authorization: `Bearer ${apiToken}` } }
+    );
+    const {
+      result: [deployment]
+    } = await response.json();
+    return deployment;
+  };
+  const createPagesDeployment_v3 = async () => {
+    await src_default.in(import_node_path.default.join(process.cwd(), workingDirectory))`
+    $ export CLOUDFLARE_API_TOKEN="${apiToken}"
+    if ${accountId} {
+      $ export CLOUDFLARE_ACCOUNT_ID="${accountId}"
     }
+
+    $$ npx wrangler@${wranglerVersion} pages publish "${directory}" --project-name="${projectName}" --branch="${branch}"
     `;
     const response = await (0, import_undici.fetch)(
       `https://api.cloudflare.com/client/v4/accounts/${accountId}/pages/projects/${projectName}/deployments`,
@@ -25785,7 +25803,7 @@ try {
       const octokit = (0, import_github.getOctokit)(gitHubToken);
       gitHubDeployment = await createGitHubDeployment(octokit, productionEnvironment, environmentName);
     }
-    const pagesDeployment = await createPagesDeployment();
+    const pagesDeployment = await (wranglerVersion === "3" ? createPagesDeployment_v3() : createPagesDeployment_v2());
     (0, import_core.setOutput)("id", pagesDeployment.id);
     (0, import_core.setOutput)("url", pagesDeployment.url);
     (0, import_core.setOutput)("environment", pagesDeployment.environment);

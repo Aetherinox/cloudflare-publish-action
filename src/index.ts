@@ -17,6 +17,9 @@ try {
 	const branch = getInput("branch", { required: false });
 	const workingDirectory = getInput("workingDirectory", { required: false });
 	const wranglerVersion = getInput("wranglerVersion", { required: false });
+	const skipCaching = getInput("skipCaching", { required: false }) || 'false';
+	const commitDirty = getInput("commitDirty", { required: false }) || 'false';
+	const commitMsg = getInput("commitMmsg", { required: false }) || '';
 
 	const getProject = async () => {
 		const response = await fetch(
@@ -38,18 +41,15 @@ try {
 		return result;
 	};
 
-	const createPagesDeployment = async () => {
+	const createPagesDeployment_v2 = async () => {
 		// TODO: Replace this with an API call to wrangler so we can get back a full deployment response object
 		await shellac.in(path.join(process.cwd(), workingDirectory))`
     $ export CLOUDFLARE_API_TOKEN="${apiToken}"
     if ${accountId} {
       $ export CLOUDFLARE_ACCOUNT_ID="${accountId}"
     }
-    if ${wranglerVersion} === '3' {
+
     $$ npx wrangler@${wranglerVersion} pages publish "${directory}" --project-name="${projectName}" --branch="${branch}"
-    } else {
-    $$ npx wrangler@${wranglerVersion} pages publish "${directory}" --project-name="${projectName}" --branch="${branch}"
-    }
     `;
 
 		const response = await fetch(
@@ -62,6 +62,30 @@ try {
 
 		return deployment;
 	};
+
+
+	const createPagesDeployment_v3 = async () => {
+		// TODO: Replace this with an API call to wrangler so we can get back a full deployment response object
+		await shellac.in(path.join(process.cwd(), workingDirectory))`
+    $ export CLOUDFLARE_API_TOKEN="${apiToken}"
+    if ${accountId} {
+      $ export CLOUDFLARE_ACCOUNT_ID="${accountId}"
+    }
+
+    $$ npx wrangler@${wranglerVersion} pages publish "${directory}" --project-name="${projectName}" --branch="${branch}"
+    `;
+
+		const response = await fetch(
+			`https://api.cloudflare.com/client/v4/accounts/${accountId}/pages/projects/${projectName}/deployments`,
+			{ headers: { Authorization: `Bearer ${apiToken}` } }
+		);
+		const {
+			result: [deployment],
+		} = (await response.json()) as { result: Deployment[] };
+
+		return deployment;
+	};
+
 
 	const githubBranch = env.GITHUB_HEAD_REF || env.GITHUB_REF_NAME;
 
@@ -151,7 +175,7 @@ try {
 			gitHubDeployment = await createGitHubDeployment(octokit, productionEnvironment, environmentName);
 		}
 
-		const pagesDeployment = await createPagesDeployment();
+		const pagesDeployment = await ( wranglerVersion === '3' ? createPagesDeployment_v3() : createPagesDeployment_v2() );
 		setOutput("id", pagesDeployment.id);
 		setOutput("url", pagesDeployment.url);
 		setOutput("environment", pagesDeployment.environment);
