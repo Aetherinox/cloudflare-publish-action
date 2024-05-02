@@ -186,6 +186,63 @@ This action will return the following outputs:
 ## Examples
 A few examples of this Github action are provided below:
 
+<details><summary>Deploy cloudflare pages on push with deploy outputs</summary>
+
+<br />
+
+This example allows you to run the action either manually, or on push for the branches `master` or `main`. It includes input declarations when using `workflow_dispatch`.
+
+<br />
+
+```yml
+run-name: "☁️ CF › Deploy"
+name: "☁️ CF › Deploy"
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  job-publish:
+      name: >-
+        📦 Publish to Cloudflare
+      runs-on: ubuntu-latest
+      permissions:
+          contents: read
+          deployments: write
+      steps:
+
+        - name: "☑️ Checkout"
+          id: task_publish_checkout
+          uses: actions/checkout@v4
+
+        - name: "☁️ Publish to Cloudflare Pages"
+          id: task_publish_push
+          uses: aetherinox/cloudflare-pages-action@v1
+          with:
+              apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+              accountId: ACCOUNT_ID
+              projectName: PROJECT_NAME
+              directory: BUILD_OUTPUT_FOLDER
+              gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+              branch: main
+              workingDirectory: my-site
+              wranglerVersion: '3'
+
+        - name: "📝 Outputs"
+          run: |
+            echo "ID ........... ${{ steps.task_publish_push.outputs.id }}"
+            echo "URL .......... ${{ steps.task_publish_push.outputs.url }}"
+            echo "Environment .. ${{ steps.task_publish_push.outputs.environment }}"
+            echo "Alias ........ ${{ steps.task_publish_push.outputs.alias }}"
+
+        - name: "📝 Outputs to Summary"
+          run: |
+              echo "Deployed to ${{ steps.task_publish_push.outputs.url }}" >> $GITHUB_STEP_SUMMARY
+```
+
 <details><summary>Run on push + workflow dispatch (with inputs)</summary>
 
 <br />
@@ -511,7 +568,6 @@ jobs:
               workingDirectory: ${{ inputs.DIRECTORY_WORKING || './' }}
               wranglerVersion: ${{ inputs.WRANGLER_VERSION || '3' }}
 ```
-
 
 <br />
 
