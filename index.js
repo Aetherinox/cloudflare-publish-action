@@ -25699,6 +25699,14 @@ try {
     }
     return result;
   };
+  const authorize = async () => {
+    const response = await (0, import_undici.fetch)(
+      `https://api.cloudflare.com/client/v4/accounts/${accountId}/pages/projects/${projectName}/deployments`,
+      { headers: { Authorization: `Bearer ${apiToken}` } }
+    );
+    const { result: [deployment] } = await response.json();
+    return deployment;
+  };
   const createPagesDeployment_v2 = async () => {
     await src_default.in(import_node_path.default.join(process.cwd(), workingDirectory))`
     $ export CLOUDFLARE_API_TOKEN="${apiToken}"
@@ -25706,16 +25714,10 @@ try {
       $ export CLOUDFLARE_ACCOUNT_ID="${accountId}"
     }
 
-    $$ npx wrangler@${wranglerVersion} pages publish "${directory}" --project-name="${projectName}" --branch="${branch}"
+    $$ npx wrangler@${wranglerVersion} pages deploy "${directory}" --project-name="${projectName}" --branch="${branch}"
     `;
-    const response = await (0, import_undici.fetch)(
-      `https://api.cloudflare.com/client/v4/accounts/${accountId}/pages/projects/${projectName}/deployments`,
-      { headers: { Authorization: `Bearer ${apiToken}` } }
-    );
-    const {
-      result: [deployment]
-    } = await response.json();
-    return deployment;
+    const authorized = await authorize();
+    return authorized;
   };
   const createPagesDeployment_v3 = async () => {
     await src_default.in(import_node_path.default.join(process.cwd(), workingDirectory))`
@@ -25726,14 +25728,8 @@ try {
 
     $$ npx wrangler@${wranglerVersion} pages deploy "${directory}" --project-name="${projectName}" --branch="${branch}" --skip-caching="${skipCaching}" --commit-message="${commitMsg}" --commit-dirty="${commitDirty}"
     `;
-    const response = await (0, import_undici.fetch)(
-      `https://api.cloudflare.com/client/v4/accounts/${accountId}/pages/projects/${projectName}/deployments`,
-      { headers: { Authorization: `Bearer ${apiToken}` } }
-    );
-    const {
-      result: [deployment]
-    } = await response.json();
-    return deployment;
+    const authorized = await authorize();
+    return authorized;
   };
   const githubBranch = import_process.env.GITHUB_HEAD_REF || import_process.env.GITHUB_REF_NAME;
   const createGitHubDeployment = async (octokit, productionEnvironment, environment) => {
