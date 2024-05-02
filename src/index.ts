@@ -41,20 +41,6 @@ try {
 		return result;
 	};
 
-	const authorize = async () => {
-		const response = await fetch(
-			`https://api.cloudflare.com/client/v4/accounts/${accountId}/pages/projects/${projectName}/deployments`,
-			{ headers: { Authorization: `Bearer ${apiToken}` } }
-		);
-
-		const {
-			result: [deployment],
-		} = (await response.json()) as { result: Deployment[] };
-
-		return deployment;
-	};
-
-
     /*
         Wrangler > Version 2
     */
@@ -68,8 +54,17 @@ try {
 
     $$ npx wrangler@${wranglerVersion} pages deploy "${directory}" --project-name="${projectName}" --branch="${branch}" --commit-message="${commitMsg}"
     `;
-        const authorized = await authorize();
-		return authorized;
+
+		const response = await fetch(
+			`https://api.cloudflare.com/client/v4/accounts/${accountId}/pages/projects/${projectName}/deployments`,
+			{ headers: { Authorization: `Bearer ${apiToken}` } }
+		);
+
+		const {
+			result: [deployment],
+		} = (await response.json()) as { result: Deployment[] };
+
+		return deployment;
 	};
 
     /*
@@ -87,8 +82,16 @@ try {
     $$ npx wrangler@${wranglerVersion} pages deploy "${directory}" --project-name="${projectName}" --branch="${branch}" --skip-caching="${skipCaching}" --commit-message="${commitMsg}" --commit-dirty="${commitDirty}"
     `;
 
-        const authorized = await authorize();
-		return authorized;
+		const response = await fetch(
+			`https://api.cloudflare.com/client/v4/accounts/${accountId}/pages/projects/${projectName}/deployments`,
+			{ headers: { Authorization: `Bearer ${apiToken}` } }
+		);
+
+		const {
+			result: [deployment],
+		} = (await response.json()) as { result: Deployment[] };
+
+		return deployment;
 	};
 
 
