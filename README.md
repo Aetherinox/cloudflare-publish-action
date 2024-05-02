@@ -106,7 +106,7 @@ Replace with following variables with your own:
 
 ### Get Account ID
 
-To find your account ID, log in to the Cloudflare dashboard > select your zone in Account Home > find your account ID in Overview under **API** on the right-side menu. If you have not added a zone, add one by selecting **Add site** . You can purchase a domain from [Cloudflare’s registrar](https://developers.cloudflare.com/registrar/).
+To find your account ID, log in to the [Cloudflare Dashboard](https://dash.cloudflare.com/) > select your zone in Account Home > find your account ID in Overview under **API** on the right-side menu. If you have not added a zone, add one by selecting **Add site** . You can purchase a domain from [Cloudflare’s registrar](https://developers.cloudflare.com/registrar/).
 
 If you do not have a zone registered to your account, you can also get your account ID from the `pages.dev` URL. E.g: `https://dash.cloudflare.com/<ACCOUNT_ID>/pages`
 
@@ -116,13 +116,19 @@ If you do not have a zone registered to your account, you can also get your acco
 
 To generate an API token:
 
-1. Log in to the Cloudflare dashboard.
-2. Select My Profile from the dropdown menu of your user icon on the top right of your dashboard.
-3. Select API Tokens > Create Token.
-4. Under Custom Token, select Get started.
-5. Name your API Token in the Token name field.
-6. Under Permissions, select Account, Cloudflare Pages and Edit:
-7. Select Continue to summary > Create Token.
+1. Log in to the [Cloudflare Dashboard](https://dash.cloudflare.com/)
+2. Select [My Profile](https://dash.cloudflare.com/profile) from the dropdown menu of your user icon on the top right of your dashboard.
+3. Select [API Tokens](https://dash.cloudflare.com/profile/api-tokens) > `Create Token`
+4. Under `Custom Token`, select `Get Started`
+5. Name your API Token in the Token name field
+6. Under `Permissions`, select `Account`, `Cloudflare Pages` and `Edit`
+7. Select Continue to `Summary` > `Create Token`
+
+<br />
+
+<p align="center"><img style="width: 75%;text-align: center;border: 1px solid #353535;" src="https://github.com/Aetherinox/cloudflare-pages-action/assets/118329232/1848a758-63e5-4cd1-8c7e-9ae16c62355a"></p>
+
+<br />
 
 More information can be found on [our guide for making Direct Upload deployments with continous integration](https://developers.cloudflare.com/pages/how-to/use-direct-upload-with-continuous-integration/#use-github-actions).
 
@@ -669,7 +675,7 @@ The following people have helped get this project going:
 <!-- BADGE > ALL CONTRIBUTORS -->
 [badge-all-contributors]: https://img.shields.io/github/all-contributors/aetherinox/cloudflare-pages-action?logo=contributorcovenant&color=de1f6f&label=contributors
 [link-all-contributors]: https://github.com/all-contributors/all-contributors
-[badge-tests]: https://img.shields.io/github/actions/workflow/status/aetherinox/cloudflare-pages-action/npm-tests.yml?logo=github&label=Tests&color=2c6488
+[badge-tests]: https://img.shields.io/github/actions/workflow/status/aetherinox/cloudflare-pages-action/tests.yml?logo=github&label=Tests&color=2c6488
 [link-tests]: https://github.com/aetherinox/cloudflare-pages-action/actions/workflows/tests.yml
 [badge-commit]: https://img.shields.io/github/last-commit/aetherinox/cloudflare-pages-action?logo=conventionalcommits&logoColor=FFFFFF&label=Last%20Commit&color=313131
 [link-commit]: https://github.com/aetherinox/cloudflare-pages-action/commits/main/
