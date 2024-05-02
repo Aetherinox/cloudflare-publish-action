@@ -25679,7 +25679,9 @@ try {
   const branch = (0, import_core.getInput)("branch", { required: false });
   const workingDirectory = (0, import_core.getInput)("workingDirectory", { required: false });
   const wranglerVersion = (0, import_core.getInput)("wranglerVersion", { required: false });
-  const minify = (0, import_core.getInput)("minify", { required: false }) || "false";
+  const skipCaching = (0, import_core.getInput)("skipCaching", { required: false }) || "false";
+  const commitDirty = (0, import_core.getInput)("commitDirty", { required: false }) || "false";
+  const commitMsg = (0, import_core.getInput)("commitMmsg", { required: false }) || "";
   const getProject = async () => {
     const response = await (0, import_undici.fetch)(
       `https://api.cloudflare.com/client/v4/accounts/${accountId}/pages/projects/${projectName}`,
@@ -25704,7 +25706,7 @@ try {
       $ export CLOUDFLARE_ACCOUNT_ID="${accountId}"
     }
 
-    $$ npx wrangler@${wranglerVersion} pages publish "${directory}" --project-name="${projectName}" --branch="${branch}" --minify="${minify}"
+    $$ npx wrangler@${wranglerVersion} pages deploy "${directory}" --project-name="${projectName}" --branch="${branch}" --skip-caching="${skipCaching}" --commit-message="${commitMsg}" --commit-dirty="${commitDirty}"
     `;
     const response = await (0, import_undici.fetch)(
       `https://api.cloudflare.com/client/v4/accounts/${accountId}/pages/projects/${projectName}/deployments`,

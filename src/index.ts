@@ -17,7 +17,9 @@ try {
 	const branch = getInput("branch", { required: false });
 	const workingDirectory = getInput("workingDirectory", { required: false });
 	const wranglerVersion = getInput("wranglerVersion", { required: false });
-	const minify = getInput("minify", { required: false }) || 'false';
+	const skipCaching = getInput("skipCaching", { required: false }) || 'false';
+	const commitDirty = getInput("commitDirty", { required: false }) || 'false';
+	const commitMsg = getInput("commitMmsg", { required: false }) || '';
 
 	const getProject = async () => {
 		const response = await fetch(
@@ -47,7 +49,7 @@ try {
       $ export CLOUDFLARE_ACCOUNT_ID="${accountId}"
     }
 
-    $$ npx wrangler@${wranglerVersion} pages publish "${directory}" --project-name="${projectName}" --branch="${branch}" --minify="${minify}"
+    $$ npx wrangler@${wranglerVersion} pages deploy "${directory}" --project-name="${projectName}" --branch="${branch}" --skip-caching="${skipCaching}" --commit-message="${commitMsg}" --commit-dirty="${commitDirty}"
     `;
 
 		const response = await fetch(
