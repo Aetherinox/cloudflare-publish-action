@@ -25679,6 +25679,7 @@ try {
   const branch = (0, import_core.getInput)("branch", { required: false });
   const workingDirectory = (0, import_core.getInput)("workingDirectory", { required: false });
   const wranglerVersion = (0, import_core.getInput)("wranglerVersion", { required: false });
+  const npmLatest = (0, import_core.getInput)("npmLatest", { required: false }) || "false";
   const skipCaching = (0, import_core.getInput)("skipCaching", { required: false }) || "false";
   const commitDirty = (0, import_core.getInput)("commitDirty", { required: false }) || "false";
   const commitMsg = (0, import_core.getInput)("commitMmsg", { required: false }) || "";
@@ -25714,6 +25715,11 @@ try {
       $ export CLOUDFLARE_ACCOUNT_ID="${accountId}"
     }
 
+    if ${npmLatest} {
+        npm install --global npm@latest
+        npm install --global wrangler
+    }
+
     $$ npx wrangler@${wranglerVersion} pages publish "${directory}" --project-name="${projectName}" --branch="${branch}" --skip-caching="${skipCaching}" --commit-message="${commitMsg}" --commit-dirty="${commitDirty}"
     `;
     return await authorize();
@@ -25723,6 +25729,11 @@ try {
     $ export CLOUDFLARE_API_TOKEN="${apiToken}"
     if ${accountId} {
       $ export CLOUDFLARE_ACCOUNT_ID="${accountId}"
+    }
+
+    if ${npmLatest} {
+        npm install --global npm@latest
+        npm install --global wrangler
     }
 
     $$ npx wrangler@${wranglerVersion} pages deploy "${directory}" --project-name="${projectName}" --branch="${branch}" --skip-caching="${skipCaching}" --commit-message="${commitMsg}" --commit-dirty="${commitDirty}"
