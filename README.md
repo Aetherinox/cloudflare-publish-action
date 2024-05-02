@@ -26,8 +26,8 @@ A forked copy of the Github action [Cloudflare Pages](https://github.com/cloudfl
 - [Usage](#usage)
   - [Get Account ID](#get-account-id)
   - [Generate an API Token](#generate-an-api-token)
-  - [Specifying a branch](#specifying-a-branch)
-  - [Specifying a working directory](#specifying-a-working-directory)
+  - [Define Branch](#define-branch)
+  - [Define Working Directory](#define-working-directory)
   - [Wrangler v3](#wrangler-v3)
 - [Outputs](#outputs)
 - [Examples](#examples)
@@ -134,7 +134,7 @@ More information can be found on [our guide for making Direct Upload deployments
 
 <br />
 
-### Specifying a branch
+### Define Branch
 
 The branch name is used by Cloudflare Pages to determine if the deployment is production or preview. Read more about
 [git branch build controls](https://developers.cloudflare.com/pages/platform/branch-build-controls/#branch-build-controls).
@@ -144,9 +144,13 @@ manually by adding the argument `branch: BRANCH_NAME`.
 
 <br />
 
-### Specifying a working directory
+### Define Working Directory
 
 By default Wrangler will run in the root package directory. If your app lives in a monorepo and you want to run Wrangler from its directory, add `workingDirectory: PACKAGE_DIRECTORY`.
+
+<br />
+
+Some people may store their website in the root directory of a branch; if so, specify `./` as your working directory.
 
 <br />
 
