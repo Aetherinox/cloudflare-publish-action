@@ -1,5 +1,5 @@
-name: "🏷️ Action › Release › Post"
-run-name: "🏷️ Action › Release › Post"
+name: "🏷️ Action › Release › @latest"
+run-name: "🏷️ Action › Release › @latest"
 
 on:
   release:
@@ -12,6 +12,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - uses: Actions-R-Us/actions-tagger@latest
+      - name: "☑️ Checkout"
+        id: task_cloudflare_checkout
+        uses: actions/checkout@v4
+
+      - name: "🏷️ Update @latest build"
+        uses: Actions-R-Us/actions-tagger@latest
+        with:
+          publish_latest_tag: true
         env:
           GITHUB_TOKEN: "${{ secrets.ADMINSERV_TOKEN_CL }}"

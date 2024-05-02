@@ -83,7 +83,7 @@ jobs:
 
         - name: "☁️ Publish to Cloudflare Pages"
           id: task_publish_push
-          uses: aetherinox/cloudflare-publish-action@v1
+          uses: aetherinox/cloudflare-publish-action@latest
           with:
               apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}       # Cloudflare API Token at https://dash.cloudflare.com/profile/api-tokens
               accountId: ACCOUNT_ID                               # Cloudflare account ID available on right side of CF website
@@ -160,7 +160,7 @@ You can use the newly released [Wrangler v3](https://blog.cloudflare.com/wrangle
 
 ```yaml
 - name: "☁️ Publish to Cloudflare Pages"
-  uses: aetherinox/cloudflare-publish-action@v1
+  uses: aetherinox/cloudflare-publish-action@latest
   with:
     apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
     accountId: ACCOUNT_ID
@@ -230,7 +230,7 @@ jobs:
 
         - name: "☁️ Publish to Cloudflare Pages"
           id: task_publish_push
-          uses: aetherinox/cloudflare-publish-action@v1
+          uses: aetherinox/cloudflare-publish-action@latest
           with:
               apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
               accountId: ACCOUNT_ID
@@ -302,7 +302,7 @@ jobs:
 
         - name: "☁️ Publish to Cloudflare Pages"
           id: task_publish_push
-          uses: aetherinox/cloudflare-publish-action@v1
+          uses: aetherinox/cloudflare-publish-action@latest
           with:
               apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
               accountId: ACCOUNT_ID
@@ -406,7 +406,7 @@ jobs:
 
         - name: "☁️ Publish to Cloudflare Pages"
           id: task_publish_push
-          uses: aetherinox/cloudflare-publish-action@v1
+          uses: aetherinox/cloudflare-publish-action@latest
           with:
               apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
               accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID || inputs.CLOUDFLARE_ACCOUNT_ID }}
@@ -518,7 +518,7 @@ jobs:
 
         - name: "☁️ Publish to Cloudflare Pages"
           id: task_publish_push
-          uses: aetherinox/cloudflare-publish-action@v1
+          uses: aetherinox/cloudflare-publish-action@latest
           with:
               apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
               accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID || inputs.CLOUDFLARE_ACCOUNT_ID }}
@@ -643,7 +643,7 @@ jobs:
 
         - name: "☁️ Publish to Cloudflare Pages"
           id: task_publish_push
-          uses: aetherinox/cloudflare-publish-action@v1
+          uses: aetherinox/cloudflare-publish-action@latest
           with:
               apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
               accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID || inputs.CLOUDFLARE_ACCOUNT_ID }}
