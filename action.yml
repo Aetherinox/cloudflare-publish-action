@@ -38,6 +38,9 @@ inputs:
   commitMsg:
     description: "The commit message to attach to this deployment"
     required: false
+  npmLatest:
+    description: "Use latest version of npm and wrangler"
+    required: false
 runs:
   using: "node20"
   main: "index.js"
