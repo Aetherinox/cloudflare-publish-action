@@ -93,6 +93,9 @@ jobs:
               branch: main                                        # Branch website published to; by default this will be the branch which triggered this workflow
               workingDirectory: my-site                           # Working directory
               wranglerVersion: '3'                                # Optional: Change the Wrangler version, allows you to point to a specific version or a tag such as `beta`
+              commitMsg: 'Your commit message'                    # Optional: Commit message to attach
+              commitDirty: false                                  # Optional: Whether or not the workspace should be considered dirty for this deployment
+              skipCaching: false                                  # Optional: Skip asset caching which speeds up builds
 ```
 
 <br />
