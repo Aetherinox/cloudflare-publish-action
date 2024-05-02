@@ -29,6 +29,15 @@ inputs:
     description: "Version of Wrangler to use"
     required: false
     default: "2"
+  skipCaching:
+    description: "Skip asset caching which speeds up builds"
+    required: false
+  commitDirty:
+    description: "Whether or not the workspace should be considered dirty for this deployment"
+    required: false
+  commitMsg:
+    description: "The commit message to attach to this deployment"
+    required: false
 runs:
   using: "node20"
   main: "index.js"
