@@ -71,6 +71,7 @@ jobs:
           branch: ${{ inputs.BRANCH || 'main' }}
           gitHubToken: ${{ secrets.SELF_TOKEN }}
           wranglerVersion: '3'
+          npmLatest: true
         id: publish
 
       - name: "📝 Cloudflare Publish Outputs"
