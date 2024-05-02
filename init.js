@@ -30,7 +30,7 @@ const { v5: uuid } = require('uuid');
  *    declrations > package.json
  */
 
-const { version, repository } = JSON.parse(fs.readFileSync('src/package.json'));
+const { version, repository } = JSON.parse(fs.readFileSync('package.json'));
 const args = process.argv.slice(2, process.argv.length);
 const action = args[0];
 // const a       = args[ 1 ];
