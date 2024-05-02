@@ -10,6 +10,8 @@ on:
 jobs:
   tag-release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
 
       - name: "☑️ Checkout"
@@ -19,6 +21,5 @@ jobs:
       - name: "🏷️ Update @latest build"
         uses: Actions-R-Us/actions-tagger@latest
         with:
+          token: ${{ secrets.ADMINSERV_TOKEN_CL }}
           publish_latest_tag: true
-        env:
-          GITHUB_TOKEN: "${{ secrets.ADMINSERV_TOKEN_CL }}"
