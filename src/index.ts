@@ -74,7 +74,7 @@ try {
     if ${npmLatest} {
         $$ npm install --global npm@latest
         $$ npm install --global wrangler
-        $$ npm wrangler --version
+        $$ wrangler --version
     }
 
     $$ npx wrangler@${wranglerVersion} pages publish "${directory}" --project-name="${projectName}" --branch="${branch}" --skip-caching="${skipCaching}" --commit-message="${commitMsg}" --commit-dirty="${commitDirty}"
@@ -99,7 +99,7 @@ try {
     if ${npmLatest} {
         $$ npm install --global npm@latest
         $$ npm install --global wrangler
-        $$ npm wrangler --version
+        $$ wrangler --version
     }
 
     $$ npx wrangler@${wranglerVersion} pages deploy "${directory}" --project-name="${projectName}" --branch="${branch}" --skip-caching="${skipCaching}" --commit-message="${commitMsg}" --commit-dirty="${commitDirty}"
