@@ -70,7 +70,6 @@ jobs:
           directory: ${{ inputs.DIRECTORY_BUILD_OUTPUT || 'example' }}
           branch: ${{ inputs.BRANCH || 'main' }}
           gitHubToken: ${{ secrets.SELF_TOKEN }}
-          wranglerVersion: '3'
           npmLatest: true
         id: publish
 
