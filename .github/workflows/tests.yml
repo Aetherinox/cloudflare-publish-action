@@ -70,7 +70,8 @@ jobs:
           directory: ${{ inputs.DIRECTORY_BUILD_OUTPUT || 'example' }}
           branch: ${{ inputs.BRANCH || 'main' }}
           gitHubToken: ${{ secrets.SELF_TOKEN }}
-          npmLatest: true
+          wranglerVersion: '3'
+          npmLatest: false
         id: publish
 
       - name: "📝 Cloudflare Publish Outputs"
