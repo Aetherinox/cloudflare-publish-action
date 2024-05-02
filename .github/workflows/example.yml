@@ -1,3 +1,6 @@
+run-name: "☁️ Example"
+name: "☁️ Example"
+
 on: [push]
 
 jobs:
@@ -8,17 +11,20 @@ jobs:
       deployments: write
     name: Example
     steps:
+
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+
       - name: Publish to Cloudflare Pages
         uses: ./
         with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: 468cce80dfb431f3a4058e6dc6031a44
+          apiToken: ${{ secrets.CF_TOKEN }}
+          accountId: ${{ secrets.CF_ACCOUNT_ID }}
           projectName: github-actions-example
           directory: example
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          gitHubToken: ${{ secrets.SELF_TOKEN }}
         id: publish
+
       - name: Outputs
         run: |
           echo "ID: ${{ steps.publish.outputs.id }}"
