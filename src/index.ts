@@ -17,9 +17,6 @@ try {
 	const branch = getInput("branch", { required: false });
 	const workingDirectory = getInput("workingDirectory", { required: false });
 	const wranglerVersion = getInput("wranglerVersion", { required: false });
-	const skipCaching = getInput("skipCaching", { required: false }) || 'false';
-	const commitDirty = getInput("commitDirty", { required: false }) || 'false';
-	const commitMsg = getInput("commitMmsg", { required: false }) || '';
 
 	const getProject = async () => {
 		const response = await fetch(
@@ -48,12 +45,12 @@ try {
     if ${accountId} {
       $ export CLOUDFLARE_ACCOUNT_ID="${accountId}"
     }
-
     if ${wranglerVersion} === '3' {
-        $$ npx wrangler@${wranglerVersion} pages deploy "${directory}" --project-name="${projectName}" --branch="${branch}" --skip-caching="${skipCaching}" --commit-message="${commitMsg}" --commit-dirty="${commitDirty}"
+    $$ npx wrangler@${wranglerVersion} pages publish "${directory}" --project-name="${projectName}" --branch="${branch}"
     } else {
-        $$ npx wrangler@${wranglerVersion} pages deploy "${directory}" --project-name="${projectName}" --branch="${branch}" --commit-message="${commitMsg}"
-    }`;
+    $$ npx wrangler@${wranglerVersion} pages publish "${directory}" --project-name="${projectName}" --branch="${branch}"
+    }
+    `;
 
 		const response = await fetch(
 			`https://api.cloudflare.com/client/v4/accounts/${accountId}/pages/projects/${projectName}/deployments`,
