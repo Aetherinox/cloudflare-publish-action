@@ -1,8 +1,8 @@
 import { getInput, setOutput, setFailed, summary } from "@actions/core";
 import type { Project, Deployment } from "@cloudflare/types";
 import { context, getOctokit } from "@actions/github";
-import shellac from "shellac";
 import { fetch } from "undici";
+import shellac from "shellac";
 import { env } from "process";
 import path from "node:path";
 
@@ -45,7 +45,7 @@ try {
     if ${accountId} {
       $ export CLOUDFLARE_ACCOUNT_ID="${accountId}"
     }
-  
+
     $$ npx wrangler@${wranglerVersion} pages publish "${directory}" --project-name="${projectName}" --branch="${branch}"
     `;
 

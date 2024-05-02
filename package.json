@@ -30,22 +30,34 @@
     ],
     "main": "index.js",
     "scripts": {
-      "build": "npx esbuild src/index.ts --bundle --platform=node --target=es2021 --outfile=index.js",
-      "prepare": "husky install",
-      "prettify": "prettier . --write --ignore-unknown"
+        "build": "npx esbuild src/index.ts --bundle --platform=node --target=es2021 --outfile=index.js",
+        "prepare": "husky install",
+        "pretty:ignore": "prettier . --write --ignore-unknown",
+        "pretty": "prettier --write '**/*.{js,json}'",
+        "contrib:add": "all-contributors add",
+        "contrib:generate": "all-contributors generate",
+        "init": "node init.js",
+        "init:generate": "node init.js generate",
+        "env-init": "npx --quiet env-cmd --no-override node init.js",
+        "env-uuid": "npx --quiet env-cmd --no-override node init.js uuid",
+        "env-guid": "npx --quiet env-cmd --no-override node init.js guid",
+        "env-version": "node -p require('./package.json').version;"
     },
     "dependencies": {
-      "@actions/core": "^1.10.1",
-      "@actions/github": "^5.1.1",
-      "@cloudflare/types": "^6.29.0",
-      "shellac": "^0.8.0",
-      "undici": "^5.28.4"
+        "@actions/core": "^1.10.1",
+        "@actions/github": "^5.1.1",
+        "@cloudflare/types": "^6.29.0",
+        "shellac": "^0.8.0",
+        "undici": "^5.28.4"
     },
     "devDependencies": {
-      "@types/node": "^18.11.3",
-      "esbuild": "^0.20.2",
-      "husky": "^8.0.3",
-      "prettier": "^3.2.5",
-      "typescript": "^4.9.5"
+        "@types/uuid": "^9.0.8",
+        "@types/node": "^18.11.3",
+        "uuid": "^9.0.1",
+        "all-contributors-cli": "^6.26.1",
+        "esbuild": "^0.20.2",
+        "husky": "^8.0.3",
+        "prettier": "^3.2.5",
+        "typescript": "^4.9.5"
     }
 }

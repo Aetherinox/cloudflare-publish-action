@@ -24640,6 +24640,7 @@ var require_github = __commonJS({
 // src/index.ts
 var import_core = __toESM(require_core());
 var import_github = __toESM(require_github());
+var import_undici = __toESM(require_undici());
 
 // node_modules/shellac/dist/index.js
 var import_child_process = __toESM(require("child_process"), 1);
@@ -25667,7 +25668,6 @@ var shellac = makeShellac();
 var src_default = shellac;
 
 // src/index.ts
-var import_undici = __toESM(require_undici());
 var import_process = require("process");
 var import_node_path = __toESM(require("path"));
 try {
@@ -25702,7 +25702,7 @@ try {
     if ${accountId} {
       $ export CLOUDFLARE_ACCOUNT_ID="${accountId}"
     }
-  
+
     $$ npx wrangler@${wranglerVersion} pages publish "${directory}" --project-name="${projectName}" --branch="${branch}"
     `;
     const response = await (0, import_undici.fetch)(
