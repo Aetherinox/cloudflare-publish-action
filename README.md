@@ -243,6 +243,12 @@ jobs:
               echo "Deployed to ${{ steps.task_publish_push.outputs.url }}" >> $GITHUB_STEP_SUMMARY
 ```
 
+<br />
+
+Ensure you change the values above to your own.
+
+</details>
+
 <details><summary>Run on push + workflow dispatch (with inputs)</summary>
 
 <br />
