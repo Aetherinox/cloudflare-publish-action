@@ -1,39 +1,51 @@
 {
-	"name": "cloudflare-publish-action",
-	"version": "1.5.0",
-	"author": "Aetherinox",
-	"description": "Publish to Cloudflare Pages",
-	"main": "index.js",
-	"scripts": {
-		"build": "npx esbuild src/index.ts --bundle --platform=node --target=es2021 --outfile=index.js",
-		"prepare": "husky install",
-		"prettify": "prettier . --write --ignore-unknown"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/Aetherinox/cloudflare-publish-action.git"
-	},
-	"keywords": [
-		"Cloudflare Pages",
-		"GitHub Actions"
-	],
-	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/Aetherinox/cloudflare-publish-action"
-	},
-	"homepage": "https://github.com/Aetherinox/cloudflare-publish-action#readme",
-	"dependencies": {
-		"@actions/core": "^1.10.1",
-		"@actions/github": "^5.1.1",
-		"@cloudflare/types": "^6.29.0",
-		"shellac": "^0.8.0",
-		"undici": "^5.28.4"
-	},
-	"devDependencies": {
-		"@types/node": "^18.11.3",
-		"esbuild": "^0.20.2",
-		"husky": "^8.0.3",
-		"prettier": "^3.2.5",
-		"typescript": "^4.9.5"
-	}
+    "name": "cloudflare-pages-action",
+    "version": "1.0.0",
+    "description": "Publish a website to Cloudflare Pages",
+    "homepage": "https://github.com/Aetherinox/cloudflare-publish-action#readme",
+    "author": "Aetherinox (adminservx@proton.me)",
+    "license": "MIT",
+    "contributors": [
+        {
+            "name": "Aetherinox",
+            "email": "adminservx@proton.me",
+            "url": "https://github.com/Aetherinox"
+        },
+        {
+            "name": "AdminServ",
+            "email": "adminservx@proton.me",
+            "url": "https://github.com/AdminServ"
+        }
+    ],
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/Aetherinox/cloudflare-publish-action.git"
+    },
+    "bugs": {
+      "url": "https://github.com/Aetherinox/cloudflare-publish-action"
+    },
+    "keywords": [
+      "Cloudflare Pages",
+      "GitHub Actions"
+    ],
+    "main": "index.js",
+    "scripts": {
+      "build": "npx esbuild src/index.ts --bundle --platform=node --target=es2021 --outfile=index.js",
+      "prepare": "husky install",
+      "prettify": "prettier . --write --ignore-unknown"
+    },
+    "dependencies": {
+      "@actions/core": "^1.10.1",
+      "@actions/github": "^5.1.1",
+      "@cloudflare/types": "^6.29.0",
+      "shellac": "^0.8.0",
+      "undici": "^5.28.4"
+    },
+    "devDependencies": {
+      "@types/node": "^18.11.3",
+      "esbuild": "^0.20.2",
+      "husky": "^8.0.3",
+      "prettier": "^3.2.5",
+      "typescript": "^4.9.5"
+    }
 }
