@@ -25714,7 +25714,7 @@ try {
       $ export CLOUDFLARE_ACCOUNT_ID="${accountId}"
     }
 
-    $$ npx wrangler@${wranglerVersion} pages publish "${directory}" --project-name="${projectName}" --branch="${branch}" --commit-message="${commitMsg}"
+    $$ npx wrangler@${wranglerVersion} pages publish "${directory}" --project-name="${projectName}" --branch="${branch}" --skip-caching="${skipCaching}" --commit-message="${commitMsg}" --commit-dirty="${commitDirty}"
     `;
     const authorized = await authorize();
     return authorized;
