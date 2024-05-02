@@ -49,6 +49,10 @@ This action was originally found on the official Cloudflare Github page, but the
 
 <br />
 
+Specifying `wranglerVersion: '3'` will utilize the newer `wrangler deploy` command over v2's deprecated `publish` command. 
+
+<br />
+
 ---
 
 <br />
