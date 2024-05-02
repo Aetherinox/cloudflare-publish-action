@@ -22,6 +22,24 @@ A forked copy of the Github action [Cloudflare Pages](https://github.com/cloudfl
 
 <br />
 
+- [About](#about)
+- [Usage](#usage)
+  - [Get Account ID](#get-account-id)
+  - [Generate an API Token](#generate-an-api-token)
+  - [Specifying a branch](#specifying-a-branch)
+  - [Specifying a working directory](#specifying-a-working-directory)
+  - [Wrangler v3](#wrangler-v3)
+- [Outputs](#outputs)
+- [Examples](#examples)
+- [Contributors ✨](#contributors-)
+
+
+</div>
+
+---
+
+<br />
+
 ## About
 GitHub Action for creating Cloudflare Pages deployments, using the [Direct Upload](https://developers.cloudflare.com/pages/platform/direct-upload/) feature and [Wrangler](https://developers.cloudflare.com/pages/platform/direct-upload/#wrangler-cli) integration.
 
@@ -39,7 +57,7 @@ This action was originally found on the official Cloudflare Github page, but the
 
 1. Create an API token within the [Cloudflare Dashboard](https://dash.cloudflare.com/profile/api-tokens) with the "Cloudflare Pages — Edit" permission.
 2. Within the example below, replace `CLOUDFLARE_API_TOKEN` with your given API token.
-3. Create a new Github action file `.github/workflows/publish.yml` in your repository with the following:
+3. Create a new Github action file `.github/workflows/cfpage-publish.yml` in your repository with the following:
 
 <br />
 
@@ -131,14 +149,14 @@ By default Wrangler will run in the root package directory. If your app lives in
 You can use the newly released [Wrangler v3](https://blog.cloudflare.com/wrangler3/) with the `wranglerVersion` property.
 
 ```yaml
-  - name: "☁️ Publish to Cloudflare Pages"
-    uses: aetherinox/cloudflare-pages-action@v1
-    with:
-      apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      accountId: ACCOUNT_ID
-      projectName: PROJECT_NAME
-      directory: BUILD_OUTPUT_FOLDER
-      wranglerVersion: '3'
+- name: "☁️ Publish to Cloudflare Pages"
+  uses: aetherinox/cloudflare-pages-action@v1
+  with:
+    apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+    accountId: ACCOUNT_ID
+    projectName: PROJECT_NAME
+    directory: BUILD_OUTPUT_FOLDER
+    wranglerVersion: '3'
 ```
 
 <br />
@@ -158,6 +176,224 @@ This action will return the following outputs:
 | `url`         | The URL of the pages deployment                     |
 | `alias`       | The alias if it exists otherwise the deployment URL |
 | `environment` | The environment that was deployed to                |
+
+<br />
+
+---
+
+<br />
+
+## Examples
+A few examples of this Github action are provided below:
+
+<details><summary>Run on `Push` + `Workflow Dispatch`</summary>
+
+<br />
+
+This example allows you to run the action either manually, or on push for the branches `master` or `main`. It includes input declarations when using `workflow_dispatch`.
+
+<br />
+
+```yml
+run-name: "☁️ CF › Deploy"
+name: "☁️ CF › Deploy"
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+  workflow_dispatch:
+    inputs:
+      PROJECT_NAME:
+        description:  "Project Name"
+        required:     true
+        default:      'my-site'
+        type:         string
+
+      CLOUDFLARE_ACCOUNT_ID:
+        description:  "Cloudflare Account ID"
+        required:     true
+        default:      'XXXXXXXXXXXXXXXX'
+        type:         string
+
+      DIRECTORY_BUILD_OUTPUT:
+        description:  "Build Output Dir"
+        required:     true
+        default:      './'
+        type:         string
+
+      DIRECTORY_WORKING:
+        description:  "Working Dir"
+        required:     true
+        default:      './'
+        type:         string
+
+      WRANGLER_VERSION:
+        description:  "Wrangler Version"
+        required:     true
+        default:      '3'
+        type:         string
+
+      BRANCH:
+        description:  'Website Branch'
+        required:     true
+        default:      'main'
+        type:         choice
+        options:
+        - main
+        - master
+
+jobs:
+  job-publish:
+      name: >-
+        📦 Publish to Cloudflare
+      runs-on: ubuntu-latest
+      permissions:
+          contents: read
+          deployments: write
+      steps:
+
+        - name: "☑️ Checkout"
+          id: task_publish_checkout
+          uses: actions/checkout@v4
+
+        - name: "☁️ Publish to Cloudflare Pages"
+          id: task_publish_push
+          uses: aetherinox/cloudflare-pages-action@v1
+          with:
+              apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+              accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID || inputs.CLOUDFLARE_ACCOUNT_ID }}
+              projectName: ${{ inputs.PROJECT_NAME || 'my-site' }}
+              directory: ${{ inputs.DIRECTORY_BUILD_OUTPUT || './' }}
+              gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+              branch: ${{ inputs.BRANCH || 'main' }}
+              workingDirectory: ${{ inputs.DIRECTORY_WORKING || './' }}
+              wranglerVersion: ${{ inputs.WRANGLER_VERSION || '3' }}
+```
+
+<br />
+
+Ensure you change the values above to your own.
+
+</details>
+
+<br />
+
+<details><summary>Verify & create project before push</summary>
+
+<br />
+
+This example adds the usage of the Cloudflare api to first check if your project name actually exists on Cloudflare, creates the project if not, and then pushes to Cloudflare pages.
+
+<br />
+
+```yml
+run-name: "☁️ CF › Deploy"
+name: "☁️ CF › Deploy"
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+  workflow_dispatch:
+    inputs:
+      PROJECT_NAME:
+        description:  "Project Name"
+        required:     true
+        default:      'my-site'
+        type:         string
+
+      CLOUDFLARE_ACCOUNT_ID:
+        description:  "Cloudflare Account ID"
+        required:     true
+        default:      'XXXXXXXXXXXXXXXX'
+        type:         string
+
+      DIRECTORY_BUILD_OUTPUT:
+        description:  "Build Output Dir"
+        required:     true
+        default:      './'
+        type:         string
+
+      DIRECTORY_WORKING:
+        description:  "Working Dir"
+        required:     true
+        default:      './'
+        type:         string
+
+      WRANGLER_VERSION:
+        description:  "Wrangler Version"
+        required:     true
+        default:      '3'
+        type:         string
+
+      BRANCH:
+        description:  'Website Branch'
+        required:     true
+        default:      'main'
+        type:         choice
+        options:
+        - main
+        - master
+
+jobs:
+  job-publish:
+      name: >-
+        📦 Publish to Cloudflare
+      runs-on: ubuntu-latest
+      permissions:
+          contents: read
+          deployments: write
+      steps:
+
+        - name: "☑️ Checkout"
+          id: task_publish_checkout
+          uses: actions/checkout@v4
+
+        - name: "☁️ CF › Check Project"
+          id: task_publish_project_verify
+          shell: bash
+          id: check-project
+          run: |
+            check=$(curl -s -X GET "https://api.cloudflare.com/client/v4/accounts/${{ secrets.CLOUDFLARE_ACCOUNT_ID || inputs.CLOUDFLARE_ACCOUNT_ID }}/pages/projects/${{ inputs.PROJECT_NAME || 'my-site' }}" \
+              -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
+              -H "Content-Type:application/json" | jq -r '.success')
+            echo "result=$check" >> $GITHUB_OUTPUT
+
+        - name: "☁️ CF › Create Project (if nonexistent)"
+          id: task_publish_project_create
+          shell: bash
+          if: steps.check-project.outputs.result != 'true'
+          run: |
+            curl -s -X POST "https://api.cloudflare.com/client/v4/accounts/${{ secrets.CLOUDFLARE_ACCOUNT_ID || inputs.CLOUDFLARE_ACCOUNT_ID }}/pages/projects" \
+              -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
+              -H "Content-Type:application/json" \
+              --data '{"name":"${{ inputs.PROJECT_NAME || 'my-site' }}", "production_branch":"${{ inputs.BRANCH || 'main' }}"}'
+
+        - name: "☁️ Publish to Cloudflare Pages"
+          id: task_publish_push
+          uses: aetherinox/cloudflare-pages-action@v1
+          with:
+              apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+              accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID || inputs.CLOUDFLARE_ACCOUNT_ID }}
+              projectName: ${{ inputs.PROJECT_NAME || 'my-site' }}
+              directory: ${{ inputs.DIRECTORY_BUILD_OUTPUT || './' }}
+              gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+              branch: ${{ inputs.BRANCH || 'main' }}
+              workingDirectory: ${{ inputs.DIRECTORY_WORKING || './' }}
+              wranglerVersion: ${{ inputs.WRANGLER_VERSION || '3' }}
+```
+
+
+<br />
+
+Ensure you change the values above to your own.
+
+</details>
 
 <br />
 
