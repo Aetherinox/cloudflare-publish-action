@@ -38,6 +38,9 @@ inputs:
   commitMsg:
     description: "The commit message to attach to this deployment"
     required: false
+  environment:
+    description: "Environment to use for operations"
+    required: false
   npmLatest:
     description: "Use latest version of npm and wrangler"
     required: false

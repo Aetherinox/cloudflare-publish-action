@@ -25683,6 +25683,7 @@ try {
   const skipCaching = (0, import_core.getInput)("skipCaching", { required: false }) || "false";
   const commitDirty = (0, import_core.getInput)("commitDirty", { required: false }) || "false";
   const commitMsg = (0, import_core.getInput)("commitMmsg", { required: false }) || "";
+  const environment = (0, import_core.getInput)("environment", { required: false }) || "production";
   const getProject = async () => {
     const response = await (0, import_undici.fetch)(
       `https://api.cloudflare.com/client/v4/accounts/${accountId}/pages/projects/${projectName}`,
@@ -25721,7 +25722,7 @@ try {
         $$ wrangler --version
     }
 
-    $$ npx wrangler@${wranglerVersion} pages publish "${directory}" --project-name="${projectName}" --branch="${branch}" --skip-caching="${skipCaching}" --commit-message="${commitMsg}" --commit-dirty="${commitDirty}"
+    $$ npx wrangler@${wranglerVersion} pages publish "${directory}" --project-name="${projectName}" --branch="${branch}" --skip-caching="${skipCaching}" --commit-message="${commitMsg}" --commit-dirty="${commitDirty}" --env="${environment}"
     `;
     return await authorize();
   };
@@ -25738,12 +25739,12 @@ try {
         $$ wrangler --version
     }
 
-    $$ npx wrangler@${wranglerVersion} pages deploy "${directory}" --project-name="${projectName}" --branch="${branch}" --skip-caching="${skipCaching}" --commit-message="${commitMsg}" --commit-dirty="${commitDirty}"
+    $$ npx wrangler@${wranglerVersion} pages deploy "${directory}" --project-name="${projectName}" --branch="${branch}" --skip-caching="${skipCaching}" --commit-message="${commitMsg}" --commit-dirty="${commitDirty}" --env="${environment}"
     `;
     return await authorize();
   };
   const githubBranch = import_process.env.GITHUB_HEAD_REF || import_process.env.GITHUB_REF_NAME;
-  const createGitHubDeployment = async (octokit, productionEnvironment, environment) => {
+  const createGitHubDeployment = async (octokit, productionEnvironment, environment2) => {
     const deployment = await octokit.rest.repos.createDeployment({
       owner: import_github.context.repo.owner,
       repo: import_github.context.repo.repo,
@@ -25751,7 +25752,7 @@ try {
       auto_merge: false,
       description: "Cloudflare Pages",
       required_contexts: [],
-      environment,
+      environment: environment2,
       production_environment: productionEnvironment
     });
     if (deployment.status === 201) {

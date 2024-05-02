@@ -26,6 +26,7 @@ try {
 	const skipCaching = getInput("skipCaching", { required: false }) || 'false';
 	const commitDirty = getInput("commitDirty", { required: false }) || 'false';
 	const commitMsg = getInput("commitMmsg", { required: false }) || '';
+	const environment = getInput("environment", { required: false }) || 'production';
 
     /*
         get project from cloudflare api
@@ -82,7 +83,7 @@ try {
         $$ wrangler --version
     }
 
-    $$ npx wrangler@${wranglerVersion} pages publish "${directory}" --project-name="${projectName}" --branch="${branch}" --skip-caching="${skipCaching}" --commit-message="${commitMsg}" --commit-dirty="${commitDirty}"
+    $$ npx wrangler@${wranglerVersion} pages publish "${directory}" --project-name="${projectName}" --branch="${branch}" --skip-caching="${skipCaching}" --commit-message="${commitMsg}" --commit-dirty="${commitDirty}" --env="${environment}"
     `;
 
 		return await authorize();
@@ -107,7 +108,7 @@ try {
         $$ wrangler --version
     }
 
-    $$ npx wrangler@${wranglerVersion} pages deploy "${directory}" --project-name="${projectName}" --branch="${branch}" --skip-caching="${skipCaching}" --commit-message="${commitMsg}" --commit-dirty="${commitDirty}"
+    $$ npx wrangler@${wranglerVersion} pages deploy "${directory}" --project-name="${projectName}" --branch="${branch}" --skip-caching="${skipCaching}" --commit-message="${commitMsg}" --commit-dirty="${commitDirty}" --env="${environment}"
     `;
 
 		return await authorize();
