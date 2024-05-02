@@ -1,7 +1,52 @@
-run-name: "☁️ Example"
-name: "☁️ Example"
+run-name: "☁️ Cloudflare Pages Example"
+name: "☁️ Cloudflare Pages Example"
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
+      - master
+
+  workflow_dispatch:
+    inputs:
+      PROJECT_NAME:
+        description:  "Project Name"
+        required:     true
+        default:      'cloudflare-publish-action'
+        type:         string
+
+      CLOUDFLARE_ACCOUNT_ID:
+        description:  "Cloudflare Account ID"
+        required:     true
+        default:      'XXXXXXXXXXXXXXXX'
+        type:         string
+
+      DIRECTORY_BUILD_OUTPUT:
+        description:  "Build Output Dir"
+        required:     true
+        default:      'example'
+        type:         string
+
+      DIRECTORY_WORKING:
+        description:  "Working Dir"
+        required:     true
+        default:      './'
+        type:         string
+
+      WRANGLER_VERSION:
+        description:  "Wrangler Version"
+        required:     true
+        default:      '3'
+        type:         string
+
+      BRANCH:
+        description:  'Website Branch'
+        required:     true
+        default:      'main'
+        type:         choice
+        options:
+        - main
+        - master
 
 jobs:
   example:
@@ -9,25 +54,27 @@ jobs:
     permissions:
       contents: read
       deployments: write
-    name: Example
+    name: >-
+      ☁️ Publish to Cloudflare
     steps:
 
-      - name: Checkout
+      - name: "☑️ Checkout"
         uses: actions/checkout@v4
 
-      - name: Publish to Cloudflare Pages
+      - name: "☁️ Publish to Cloudflare Pages"
         uses: ./
         with:
           apiToken: ${{ secrets.CF_TOKEN }}
-          accountId: ${{ secrets.CF_ACCOUNT_ID }}
-          projectName: cloudflare-publish-action
-          directory: example
+          accountId: ${{ secrets.CF_ACCOUNT_ID || inputs.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: ${{ inputs.PROJECT_NAME || 'cloudflare-publish-action' }}
+          directory: ${{ inputs.DIRECTORY_BUILD_OUTPUT || 'example' }}
+          branch: ${{ inputs.BRANCH || 'main' }}
           gitHubToken: ${{ secrets.SELF_TOKEN }}
         id: publish
 
-      - name: Outputs
+      - name: "📝 Cloudflare Publish Outputs"
         run: |
-          echo "ID: ${{ steps.publish.outputs.id }}"
           echo "URL: ${{ steps.publish.outputs.url }}"
+          echo "ID: ${{ steps.publish.outputs.id }}"
           echo "Environment: ${{ steps.publish.outputs.environment }}"
           echo "Alias: ${{ steps.publish.outputs.alias }}"
