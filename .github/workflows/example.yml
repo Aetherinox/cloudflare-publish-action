@@ -20,7 +20,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CF_TOKEN }}
           accountId: ${{ secrets.CF_ACCOUNT_ID }}
-          projectName: github-actions-example
+          projectName: cloudflare-publish-action
           directory: example
           gitHubToken: ${{ secrets.SELF_TOKEN }}
         id: publish
