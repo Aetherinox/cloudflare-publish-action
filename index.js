@@ -25699,6 +25699,14 @@ try {
     }
     return result;
   };
+  const exportCredentials = async () => {
+    await src_default.in(import_node_path.default.join(process.cwd(), workingDirectory))`
+    $ export CLOUDFLARE_API_TOKEN="${apiToken}"
+    if ${accountId} {
+      $ export CLOUDFLARE_ACCOUNT_ID="${accountId}"
+    }
+    `;
+  };
   const authorize = async () => {
     const response = await (0, import_undici.fetch)(
       `https://api.cloudflare.com/client/v4/accounts/${accountId}/pages/projects/${projectName}/deployments`,
@@ -25708,24 +25716,16 @@ try {
     return deployment;
   };
   const createPagesDeployment_v2 = async () => {
+    await exportCredentials();
     await src_default.in(import_node_path.default.join(process.cwd(), workingDirectory))`
-    $ export CLOUDFLARE_API_TOKEN="${apiToken}"
-    if ${accountId} {
-      $ export CLOUDFLARE_ACCOUNT_ID="${accountId}"
-    }
-
     $$ npx wrangler@${wranglerVersion} pages publish "${directory}" --project-name="${projectName}" --branch="${branch}" --skip-caching="${skipCaching}" --commit-message="${commitMsg}" --commit-dirty="${commitDirty}"
     `;
     const authorized = await authorize();
     return authorized;
   };
   const createPagesDeployment_v3 = async () => {
+    await exportCredentials();
     await src_default.in(import_node_path.default.join(process.cwd(), workingDirectory))`
-    $ export CLOUDFLARE_API_TOKEN="${apiToken}"
-    if ${accountId} {
-      $ export CLOUDFLARE_ACCOUNT_ID="${accountId}"
-    }
-
     $$ npx wrangler@${wranglerVersion} pages deploy "${directory}" --project-name="${projectName}" --branch="${branch}" --skip-caching="${skipCaching}" --commit-message="${commitMsg}" --commit-dirty="${commitDirty}"
     `;
     const authorized = await authorize();
