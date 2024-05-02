@@ -1,4 +1,4 @@
-name: "Cloudflare Pages Action"
+name: "Cloudflare Pages Publisher Action"
 description: "Publish files from a github branch to Cloudflare Pages"
 branding:
   icon: "upload-cloud"
