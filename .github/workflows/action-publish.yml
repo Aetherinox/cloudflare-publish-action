@@ -298,6 +298,15 @@ jobs:
                 npm run pretty
 
             # ---------------------------------------------------------------------------------------
+            #   Dist Releases > Build
+            # ---------------------------------------------------------------------------------------
+
+            - name: "📦 NPM › Build"
+              id: task_release_npm_build
+              run: |
+                npm run build
+
+            # ---------------------------------------------------------------------------------------
             #   Dist Releases > Execute npm generate so that a uuid and guid can be created
             # ---------------------------------------------------------------------------------------
 
@@ -330,7 +339,7 @@ jobs:
               if: ${{ startsWith( inputs.PRERELEASE, false ) }}
               run: |
                   echo Building STABLE Package .zip PACKAGE_VERSION
-                  zip -r ${{ inputs.PROJECT_NAME }}-${{ env.PACKAGE_VERSION }}.zip package.json README.md LICENSE src -x src/tests/**\*
+                  zip -r ${{ inputs.PROJECT_NAME }}-${{ env.PACKAGE_VERSION }}.zip package.json README.md LICENSE index.js
                   ls
               env:
                 NODE_AUTH_TOKEN: ${{ secrets.ADMINSERV_TOKEN_CL }}
@@ -340,7 +349,7 @@ jobs:
               if: ${{ startsWith( inputs.PRERELEASE, true ) }}
               run: |
                   echo Building PRE-RELEASE Package .zip PACKAGE_VERSION
-                  zip -r ${{ inputs.PROJECT_NAME }}-${{ env.PACKAGE_VERSION }}-rc.${{ inputs.VERSION_RC }}.zip package.json README.md LICENSE src -x src/tests/**\*
+                  zip -r ${{ inputs.PROJECT_NAME }}-${{ env.PACKAGE_VERSION }}-rc.${{ inputs.VERSION_RC }}.zip package.json README.md LICENSE index.js
                   ls
               env:
                 NODE_AUTH_TOKEN: ${{ secrets.ADMINSERV_TOKEN_CL }}
