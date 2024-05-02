@@ -83,7 +83,7 @@ jobs:
 
         - name: "☁️ Publish to Cloudflare Pages"
           id: task_publish_push
-          uses: aetherinox/cloudflare-pages-action@v1
+          uses: aetherinox/cloudflare-publish-action@v1
           with:
               apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}       # Cloudflare API Token at https://dash.cloudflare.com/profile/api-tokens
               accountId: ACCOUNT_ID                               # Cloudflare account ID available on right side of CF website
@@ -126,7 +126,7 @@ To generate an API token:
 
 <br />
 
-<p align="center"><img style="width: 75%;text-align: center;border: 1px solid #353535;" src="https://github.com/Aetherinox/cloudflare-pages-action/assets/118329232/1848a758-63e5-4cd1-8c7e-9ae16c62355a"></p>
+<p align="center"><img style="width: 75%;text-align: center;border: 1px solid #353535;" src="https://github.com/Aetherinox/cloudflare-publish-action/assets/118329232/1848a758-63e5-4cd1-8c7e-9ae16c62355a"></p>
 
 <br />
 
@@ -160,7 +160,7 @@ You can use the newly released [Wrangler v3](https://blog.cloudflare.com/wrangle
 
 ```yaml
 - name: "☁️ Publish to Cloudflare Pages"
-  uses: aetherinox/cloudflare-pages-action@v1
+  uses: aetherinox/cloudflare-publish-action@v1
   with:
     apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
     accountId: ACCOUNT_ID
@@ -230,7 +230,7 @@ jobs:
 
         - name: "☁️ Publish to Cloudflare Pages"
           id: task_publish_push
-          uses: aetherinox/cloudflare-pages-action@v1
+          uses: aetherinox/cloudflare-publish-action@v1
           with:
               apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
               accountId: ACCOUNT_ID
@@ -302,7 +302,7 @@ jobs:
 
         - name: "☁️ Publish to Cloudflare Pages"
           id: task_publish_push
-          uses: aetherinox/cloudflare-pages-action@v1
+          uses: aetherinox/cloudflare-publish-action@v1
           with:
               apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
               accountId: ACCOUNT_ID
@@ -406,7 +406,7 @@ jobs:
 
         - name: "☁️ Publish to Cloudflare Pages"
           id: task_publish_push
-          uses: aetherinox/cloudflare-pages-action@v1
+          uses: aetherinox/cloudflare-publish-action@v1
           with:
               apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
               accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID || inputs.CLOUDFLARE_ACCOUNT_ID }}
@@ -500,7 +500,6 @@ jobs:
         - name: "☁️ CF › Check Project"
           id: task_publish_project_verify
           shell: bash
-          id: check-project
           run: |
             check=$(curl -s -X GET "https://api.cloudflare.com/client/v4/accounts/${{ secrets.CLOUDFLARE_ACCOUNT_ID || inputs.CLOUDFLARE_ACCOUNT_ID }}/pages/projects/${{ inputs.PROJECT_NAME || 'my-site' }}" \
               -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
@@ -510,7 +509,7 @@ jobs:
         - name: "☁️ CF › Create Project (if nonexistent)"
           id: task_publish_project_create
           shell: bash
-          if: steps.check-project.outputs.result != 'true'
+          if: steps.task_publish_project_verify.outputs.result != 'true'
           run: |
             curl -s -X POST "https://api.cloudflare.com/client/v4/accounts/${{ secrets.CLOUDFLARE_ACCOUNT_ID || inputs.CLOUDFLARE_ACCOUNT_ID }}/pages/projects" \
               -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
@@ -519,7 +518,7 @@ jobs:
 
         - name: "☁️ Publish to Cloudflare Pages"
           id: task_publish_push
-          uses: aetherinox/cloudflare-pages-action@v1
+          uses: aetherinox/cloudflare-publish-action@v1
           with:
               apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
               accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID || inputs.CLOUDFLARE_ACCOUNT_ID }}
@@ -626,7 +625,6 @@ jobs:
         - name: "☁️ CF › Check Project"
           id: task_publish_project_verify
           shell: bash
-          id: check-project
           run: |
             check=$(curl -s -X GET "https://api.cloudflare.com/client/v4/accounts/${{ secrets.CLOUDFLARE_ACCOUNT_ID || inputs.CLOUDFLARE_ACCOUNT_ID }}/pages/projects/${{ inputs.PROJECT_NAME || 'my-site' }}" \
               -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
@@ -636,7 +634,7 @@ jobs:
         - name: "☁️ CF › Create Project (if nonexistent)"
           id: task_publish_project_create
           shell: bash
-          if: steps.check-project.outputs.result != 'true'
+          if: steps.task_publish_project_verify.outputs.result != 'true'
           run: |
             curl -s -X POST "https://api.cloudflare.com/client/v4/accounts/${{ secrets.CLOUDFLARE_ACCOUNT_ID || inputs.CLOUDFLARE_ACCOUNT_ID }}/pages/projects" \
               -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
@@ -645,7 +643,7 @@ jobs:
 
         - name: "☁️ Publish to Cloudflare Pages"
           id: task_publish_push
-          uses: aetherinox/cloudflare-pages-action@v1
+          uses: aetherinox/cloudflare-publish-action@v1
           with:
               apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
               accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID || inputs.CLOUDFLARE_ACCOUNT_ID }}
@@ -686,7 +684,7 @@ The following people have helped get this project going:
 <table>
   <tbody>
     <tr>
-      <td align="center" valign="top" width="14.28%"><a href="https://gitlab.com/Aetherinox"><img src="https://avatars.githubusercontent.com/u/118329232?v=4?s=40" width="40px;" alt="Aetherinox"/><br /><sub><b>Aetherinox</b></sub></a><br /><a href="https://github.com/Aetherinox/cloudflare-pages-action?author=Aetherinox" title="Code">💻</a> <a href="#projectManagement-Aetherinox" title="Project Management">📆</a> <a href="#fundingFinding-Aetherinox" title="Funding Finding">🔍</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://gitlab.com/Aetherinox"><img src="https://avatars.githubusercontent.com/u/118329232?v=4?s=40" width="40px;" alt="Aetherinox"/><br /><sub><b>Aetherinox</b></sub></a><br /><a href="https://github.com/Aetherinox/cloudflare-publish-action?author=Aetherinox" title="Code">💻</a> <a href="#projectManagement-Aetherinox" title="Project Management">📆</a> <a href="#fundingFinding-Aetherinox" title="Funding Finding">🔍</a></td>
     </tr>
   </tbody>
 </table>
@@ -722,37 +720,37 @@ The following people have helped get this project going:
 <!-- BADGE > GENERAL -->
 [link-general-npm]: https://npmjs.com
 [link-general-nodejs]: https://nodejs.org
-[link-npmtrends]: http://npmtrends.com/@aetherinox/cloudflare-pages-action
+[link-npmtrends]: http://npmtrends.com/@aetherinox/cloudflare-publish-action
 <!-- BADGE > VERSION > GITHUB -->
-[badge-version-gh]: https://img.shields.io/github/v/tag/aetherinox/cloudflare-pages-action?logo=GitHub&label=Version&color=ba5225
-[link-version-gh]: https://github.com/aetherinox/cloudflare-pages-action/releases
+[badge-version-gh]: https://img.shields.io/github/v/tag/aetherinox/cloudflare-publish-action?logo=GitHub&label=Version&color=ba5225
+[link-version-gh]: https://github.com/aetherinox/cloudflare-publish-action/releases
 <!-- BADGE > VERSION > NPMJS -->
-[badge-version-npm]: https://img.shields.io/npm/v/@aetherinox/cloudflare-pages-action?logo=npm&label=Version&color=ba5225
-[link-version-npm]: https://npmjs.com/package/@aetherinox/cloudflare-pages-action
+[badge-version-npm]: https://img.shields.io/npm/v/@aetherinox/cloudflare-publish-action?logo=npm&label=Version&color=ba5225
+[link-version-npm]: https://npmjs.com/package/@aetherinox/cloudflare-publish-action
 <!-- BADGE > LICENSE -->
 [badge-license-mit]: https://img.shields.io/badge/MIT-FFF?logo=creativecommons&logoColor=FFFFFF&label=License&color=9d29a0
-[link-license-mit]: https://github.com/aetherinox/cloudflare-pages-action/blob/main/LICENSE
+[link-license-mit]: https://github.com/aetherinox/cloudflare-publish-action/blob/main/LICENSE
 <!-- BADGE > BUILD -->
-[badge-build]: https://img.shields.io/github/actions/workflow/status/aetherinox/cloudflare-pages-action/release-npm.yml?logo=github&logoColor=FFFFFF&label=Build&color=%23278b30
-[link-build]: https://github.com/aetherinox/cloudflare-pages-action/actions/workflows/release-npm.yml
+[badge-build]: https://img.shields.io/github/actions/workflow/status/aetherinox/cloudflare-publish-action/release-npm.yml?logo=github&logoColor=FFFFFF&label=Build&color=%23278b30
+[link-build]: https://github.com/aetherinox/cloudflare-publish-action/actions/workflows/release-npm.yml
 <!-- BADGE > DOWNLOAD COUNT -->
-[badge-downloads-gh]: https://img.shields.io/github/downloads/aetherinox/cloudflare-pages-action/total?logo=github&logoColor=FFFFFF&label=Downloads&color=376892
-[link-downloads-gh]: https://github.com/aetherinox/cloudflare-pages-action/releases
-[badge-downloads-npm]: https://img.shields.io/npm/dw/%40aetherinox%2Fcloudflare-pages-action?logo=npm&&label=Downloads&color=376892
-[link-downloads-npm]: https://npmjs.com/package/@aetherinox/cloudflare-pages-action
+[badge-downloads-gh]: https://img.shields.io/github/downloads/aetherinox/cloudflare-publish-action/total?logo=github&logoColor=FFFFFF&label=Downloads&color=376892
+[link-downloads-gh]: https://github.com/aetherinox/cloudflare-publish-action/releases
+[badge-downloads-npm]: https://img.shields.io/npm/dw/%40aetherinox%2Fcloudflare-publish-action?logo=npm&&label=Downloads&color=376892
+[link-downloads-npm]: https://npmjs.com/package/@aetherinox/cloudflare-publish-action
 <!-- BADGE > DOWNLOAD SIZE -->
-[badge-size-gh]: https://img.shields.io/github/repo-size/aetherinox/cloudflare-pages-action?logo=github&label=Size&color=59702a
-[link-size-gh]: https://github.com/aetherinox/cloudflare-pages-action/releases
-[badge-size-npm]: https://img.shields.io/npm/unpacked-size/@aetherinox/cloudflare-pages-action/latest?logo=npm&label=Size&color=59702a
-[link-size-npm]: https://npmjs.com/package/@aetherinox/cloudflare-pages-action
+[badge-size-gh]: https://img.shields.io/github/repo-size/aetherinox/cloudflare-publish-action?logo=github&label=Size&color=59702a
+[link-size-gh]: https://github.com/aetherinox/cloudflare-publish-action/releases
+[badge-size-npm]: https://img.shields.io/npm/unpacked-size/@aetherinox/cloudflare-publish-action/latest?logo=npm&label=Size&color=59702a
+[link-size-npm]: https://npmjs.com/package/@aetherinox/cloudflare-publish-action
 <!-- BADGE > COVERAGE -->
-[badge-coverage]: https://img.shields.io/codecov/c/github/aetherinox/cloudflare-pages-action?token=MPAVASGIOG&logo=codecov&logoColor=FFFFFF&label=Coverage&color=354b9e
-[link-coverage]: https://codecov.io/github/aetherinox/cloudflare-pages-action
+[badge-coverage]: https://img.shields.io/codecov/c/github/aetherinox/cloudflare-publish-action?token=MPAVASGIOG&logo=codecov&logoColor=FFFFFF&label=Coverage&color=354b9e
+[link-coverage]: https://codecov.io/github/aetherinox/cloudflare-publish-action
 <!-- BADGE > ALL CONTRIBUTORS -->
-[badge-all-contributors]: https://img.shields.io/github/all-contributors/aetherinox/cloudflare-pages-action?logo=contributorcovenant&color=de1f6f&label=contributors
+[badge-all-contributors]: https://img.shields.io/github/all-contributors/aetherinox/cloudflare-publish-action?logo=contributorcovenant&color=de1f6f&label=contributors
 [link-all-contributors]: https://github.com/all-contributors/all-contributors
-[badge-tests]: https://img.shields.io/github/actions/workflow/status/aetherinox/cloudflare-pages-action/tests.yml?logo=github&label=Tests&color=2c6488
-[link-tests]: https://github.com/aetherinox/cloudflare-pages-action/actions/workflows/tests.yml
-[badge-commit]: https://img.shields.io/github/last-commit/aetherinox/cloudflare-pages-action?logo=conventionalcommits&logoColor=FFFFFF&label=Last%20Commit&color=313131
-[link-commit]: https://github.com/aetherinox/cloudflare-pages-action/commits/main/
+[badge-tests]: https://img.shields.io/github/actions/workflow/status/aetherinox/cloudflare-publish-action/tests.yml?logo=github&label=Tests&color=2c6488
+[link-tests]: https://github.com/aetherinox/cloudflare-publish-action/actions/workflows/tests.yml
+[badge-commit]: https://img.shields.io/github/last-commit/aetherinox/cloudflare-publish-action?logo=conventionalcommits&logoColor=FFFFFF&label=Last%20Commit&color=313131
+[link-commit]: https://github.com/aetherinox/cloudflare-publish-action/commits/main/
 <!-- prettier-ignore-end -->

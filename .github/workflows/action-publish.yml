@@ -7,13 +7,13 @@ on:
 
       # ---------------------------------------------------------------------------------------
       #   Name of the plugin to use when creating the release zip filename
-      #     e.g: cloudflare-pages-action-v1.0.0.zip
+      #     e.g: cloudflare-publish-action-v1.0.0.zip
       # ---------------------------------------------------------------------------------------
 
       PROJECT_NAME:
         description:  "📦 Name of App"
         required:     true
-        default:      'cloudflare-pages-action'
+        default:      'cloudflare-publish-action'
         type:         string
 
       CLOUDFLARE_ACCOUNT_ID:
@@ -87,11 +87,11 @@ on:
       # ---------------------------------------------------------------------------------------
       #   Release Candidate version number
       #   this will be added to the end of your released app in the releases page.
-      #     e.g: cloudflare-pages-action-v1.0.0-rc.1
+      #     e.g: cloudflare-publish-action-v1.0.0-rc.1
       # ---------------------------------------------------------------------------------------
 
       VERSION_RC:
-        description:  "🧪 RC (Pre-release) Ver (cloudflare-pages-action-rc.v1)"
+        description:  "🧪 RC (Pre-release) Ver (cloudflare-publish-action-rc.v1)"
         required:     false
         type:         string
         default:      "1"
@@ -204,6 +204,29 @@ jobs:
             run: |
               echo "VERSION: ${{ env.PACKAGE_VERSION }}"
 
+            # ---------------------------------------------------------------------------------------
+            #   CLOUDFLARE > VERIFY PROJECT
+            # ---------------------------------------------------------------------------------------
+
+          - name: "☁️ CF › Check Project"
+            id: task_cloudflare_project_verify
+            shell: bash
+            run: |
+              check=$(curl -s -X GET "https://api.cloudflare.com/client/v4/accounts/${{ secrets.CLOUDFLARE_ACCOUNT_ID || inputs.CLOUDFLARE_ACCOUNT_ID }}/pages/projects/${{ inputs.PROJECT_NAME || 'my-site' }}" \
+                -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
+                -H "Content-Type:application/json" | jq -r '.success')
+              echo "result=$check" >> $GITHUB_OUTPUT
+
+          - name: "☁️ CF › Create Project (if nonexistent)"
+            id: task_cloudflare_project_create
+            shell: bash
+            if: steps.task_cloudflare_project_verify.outputs.result != 'true'
+            run: |
+              curl -s -X POST "https://api.cloudflare.com/client/v4/accounts/${{ secrets.CLOUDFLARE_ACCOUNT_ID || inputs.CLOUDFLARE_ACCOUNT_ID }}/pages/projects" \
+                -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
+                -H "Content-Type:application/json" \
+                --data '{"name":"${{ inputs.PROJECT_NAME || 'my-site' }}", "production_branch":"${{ inputs.BRANCH || 'main' }}"}'
+
           # ---------------------------------------------------------------------------------------
           #   CLOUDFLARE > SETUP
           # ---------------------------------------------------------------------------------------
@@ -214,7 +237,7 @@ jobs:
             with:
                 apiToken: ${{ secrets.CF_TOKEN }}
                 accountId: ${{ secrets.CF_ACCOUNT_ID || inputs.CLOUDFLARE_ACCOUNT_ID }}
-                projectName: ${{ inputs.PROJECT_NAME || 'cloudflare-pages-action' }}
+                projectName: ${{ inputs.PROJECT_NAME || 'cloudflare-publish-action' }}
                 directory: ${{ inputs.DIRECTORY_BUILD_OUTPUT || 'example' }}
                 gitHubToken: ${{ secrets.SELF_TOKEN_CL }}
                 branch: ${{ inputs.BRANCH || 'main' }}

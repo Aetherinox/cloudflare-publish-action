@@ -1,5 +1,5 @@
 {
-    "name": "cloudflare-pages-action",
+    "name": "cloudflare-publish-action",
     "version": "1.0.0",
     "description": "Publish a website to Cloudflare Pages",
     "homepage": "https://github.com/Aetherinox/cloudflare-publish-action#readme",
