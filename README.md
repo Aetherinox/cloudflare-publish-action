@@ -47,7 +47,7 @@ GitHub Action for creating Cloudflare Pages deployments, using the [Direct Uploa
 
 This action was originally found on the official Cloudflare Github page, but the action has lacked updates to more recent libraries.
 
-</div>
+<br />
 
 ---
 
@@ -140,13 +140,13 @@ The branch name is used by Cloudflare Pages to determine if the deployment is pr
 [git branch build controls](https://developers.cloudflare.com/pages/platform/branch-build-controls/#branch-build-controls).
 
 If you are in a Git workspace, Wrangler will automatically pull the branch information for you. You can override this
-manually by adding the argument `branch: YOUR_BRANCH_NAME`.
+manually by adding the argument `branch: BRANCH_NAME`.
 
 <br />
 
 ### Specifying a working directory
 
-By default Wrangler will run in the root package directory. If your app lives in a monorepo and you want to run Wrangler from its directory, add `workingDirectory: YOUR_PACKAGE_DIRECTORY`.
+By default Wrangler will run in the root package directory. If your app lives in a monorepo and you want to run Wrangler from its directory, add `workingDirectory: PACKAGE_DIRECTORY`.
 
 <br />
 
@@ -255,11 +255,11 @@ Ensure you change the values above to your own.
 
 </details>
 
-<details><summary>Run npm, @cloudflare/next-on-pages (Next.js), and deploy to cloudflare pages)</summary>
+<details><summary>Run npm, @cloudflare/next-on-pages (Next.js), and deploy to cloudflare pages</summary>
 
 <br />
 
-`@cloudflare/next-on-pages` is a CLI tool that you can use to build and develop Next.js applications so that they can run on the Cloudflare Pages platform.
+[@cloudflare/next-on-pages](https://github.com/cloudflare/next-on-pages) is a CLI tool that you can use to build and develop Next.js applications so that they can run on the Cloudflare Pages platform.
 
 <br />
 
@@ -420,7 +420,7 @@ Ensure you change the values above to your own.
 
 </details>
 
-<details><summary>Verify & create project on Cloudflare before push (with inputs)</summary>
+<details><summary>Verify & create project using Cloudflare APU, then push to cloudflare (with inputs)</summary>
 
 <br />
 
