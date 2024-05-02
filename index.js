@@ -25717,7 +25717,7 @@ try {
 
     if ${npmLatest} {
         $$ npm install --global npm@latest
-        $$ npm install --global wrangler
+        $$ npm install --global wrangler@^2.0.0
         $$ wrangler --version
     }
 
