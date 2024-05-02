@@ -1,8 +1,11 @@
-name: Tag major release (vX)
+name: "🏷️ Action › Release › Post"
+run-name: "🏷️ Action › Release › Post"
 
 on:
   release:
-    types: [published, edited]
+    types:
+      - published
+      - edited
 
 jobs:
   tag-release:
