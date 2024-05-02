@@ -21,6 +21,10 @@ try {
 	const commitDirty = getInput("commitDirty", { required: false }) || 'false';
 	const commitMsg = getInput("commitMmsg", { required: false }) || '';
 
+    /*
+        get project from cloudflare api
+    */
+
 	const getProject = async () => {
 		const response = await fetch(
 			`https://api.cloudflare.com/client/v4/accounts/${accountId}/pages/projects/${projectName}`,
@@ -41,14 +45,9 @@ try {
 		return result;
 	};
 
-    const exportCredentials = async () => {
-		await shellac.in(path.join(process.cwd(), workingDirectory))`
-    $ export CLOUDFLARE_API_TOKEN="${apiToken}"
-    if ${accountId} {
-      $ export CLOUDFLARE_ACCOUNT_ID="${accountId}"
-    }`;
-	};
-    exportCredentials();
+    /*
+        authorize cloudflare api
+    */
 
 	const authorize = async () => {
 		const response = await fetch(
@@ -57,10 +56,8 @@ try {
 		);
 
 		const { result: [deployment] } = (await response.json()) as { result: Deployment[] };
-
 		return deployment;
 	};
-
 
     /*
         Wrangler > Version 2
@@ -68,24 +65,34 @@ try {
 
 	const createPagesDeployment_v2 = async () => {
 		await shellac.in(path.join(process.cwd(), workingDirectory))`
+    $ export CLOUDFLARE_API_TOKEN="${apiToken}"
+    if ${accountId} {
+      $ export CLOUDFLARE_ACCOUNT_ID="${accountId}"
+    }
+
     $$ npx wrangler@${wranglerVersion} pages publish "${directory}" --project-name="${projectName}" --branch="${branch}" --skip-caching="${skipCaching}" --commit-message="${commitMsg}" --commit-dirty="${commitDirty}"
     `;
-        const authorized = await authorize();
-		return authorized;
+
+		return await authorize();
 	};
 
     /*
         Wrangler > Version 3
+        v3 of wrangler deprecates 'pages publish' in favor of 'pages deploy'
     */
 
 	const createPagesDeployment_v3 = async () => {
 		// TODO: Replace this with an API call to wrangler so we can get back a full deployment response object
 		await shellac.in(path.join(process.cwd(), workingDirectory))`
+    $ export CLOUDFLARE_API_TOKEN="${apiToken}"
+    if ${accountId} {
+      $ export CLOUDFLARE_ACCOUNT_ID="${accountId}"
+    }
+
     $$ npx wrangler@${wranglerVersion} pages deploy "${directory}" --project-name="${projectName}" --branch="${branch}" --skip-caching="${skipCaching}" --commit-message="${commitMsg}" --commit-dirty="${commitDirty}"
     `;
 
-        const authorized = await authorize();
-		return authorized;
+		return await authorize();
 	};
 
 
