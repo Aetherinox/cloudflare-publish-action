@@ -46,9 +46,9 @@ try {
     $ export CLOUDFLARE_API_TOKEN="${apiToken}"
     if ${accountId} {
       $ export CLOUDFLARE_ACCOUNT_ID="${accountId}"
-    }
-    `;
+    }`;
 	};
+    exportCredentials();
 
 	const authorize = async () => {
 		const response = await fetch(
@@ -67,7 +67,6 @@ try {
     */
 
 	const createPagesDeployment_v2 = async () => {
-        await exportCredentials();
 		await shellac.in(path.join(process.cwd(), workingDirectory))`
     $$ npx wrangler@${wranglerVersion} pages publish "${directory}" --project-name="${projectName}" --branch="${branch}" --skip-caching="${skipCaching}" --commit-message="${commitMsg}" --commit-dirty="${commitDirty}"
     `;
@@ -80,7 +79,6 @@ try {
     */
 
 	const createPagesDeployment_v3 = async () => {
-        await exportCredentials();
 		// TODO: Replace this with an API call to wrangler so we can get back a full deployment response object
 		await shellac.in(path.join(process.cwd(), workingDirectory))`
     $$ npx wrangler@${wranglerVersion} pages deploy "${directory}" --project-name="${projectName}" --branch="${branch}" --skip-caching="${skipCaching}" --commit-message="${commitMsg}" --commit-dirty="${commitDirty}"
