@@ -9,6 +9,11 @@ import path from "node:path";
 type Octokit = ReturnType<typeof getOctokit>;
 
 try {
+
+    /*
+        get values from workflow inputs
+    */
+
 	const apiToken = getInput("apiToken", { required: true });
 	const accountId = getInput("accountId", { required: true });
 	const projectName = getInput("projectName", { required: true });
@@ -98,7 +103,7 @@ try {
 
     if ${npmLatest} {
         $$ npm install --global npm@latest
-        $$ npm install --global wrangler
+        $$ npm install --global wrangler@^3.0.0
         $$ wrangler --version
     }
 
