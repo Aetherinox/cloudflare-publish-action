@@ -255,6 +255,78 @@ Ensure you change the values above to your own.
 
 </details>
 
+<details><summary>Run npm, @cloudflare/next-on-pages (Next.js), and deploy to cloudflare pages)</summary>
+
+<br />
+
+`@cloudflare/next-on-pages` is a CLI tool that you can use to build and develop Next.js applications so that they can run on the Cloudflare Pages platform.
+
+<br />
+
+```yml
+run-name: "☁️ CF › Deploy"
+name: "☁️ CF › Deploy"
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  job-publish:
+      name: >-
+        📦 Publish to Cloudflare
+      runs-on: ubuntu-latest
+      permissions:
+          contents: read
+          deployments: write
+          statuses: write
+      steps:
+
+        - name: "☑️ Checkout"
+          id: task_publish_checkout
+          uses: actions/checkout@v4
+
+        - name: "📦 Install Packages"
+          id: task_publish_install_packages
+          run: npm install
+
+        - name: "🔨 Build"
+          id: task_publish_build_nextonpages
+          run: npx @cloudflare/next-on-pages@1
+
+        - name: "☁️ Publish to Cloudflare Pages"
+          id: task_publish_push
+          uses: aetherinox/cloudflare-pages-action@v1
+          with:
+              apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+              accountId: ACCOUNT_ID
+              projectName: PROJECT_NAME
+              directory: BUILD_OUTPUT_FOLDER
+              gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+              branch: main
+              workingDirectory: my-site
+              wranglerVersion: '3'
+
+        - name: "📝 Outputs"
+          run: |
+            echo "ID ........... ${{ steps.task_publish_push.outputs.id }}"
+            echo "URL .......... ${{ steps.task_publish_push.outputs.url }}"
+            echo "Environment .. ${{ steps.task_publish_push.outputs.environment }}"
+            echo "Alias ........ ${{ steps.task_publish_push.outputs.alias }}"
+
+        - name: "📝 Outputs to Summary"
+          run: |
+              echo "Deployed to ${{ steps.task_publish_push.outputs.url }}" >> $GITHUB_STEP_SUMMARY
+```
+
+<br />
+
+Ensure you change the values above to your own.
+
+</details>
+
 <details><summary>Run on push + workflow dispatch (with inputs)</summary>
 
 <br />
