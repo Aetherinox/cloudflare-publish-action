@@ -52,7 +52,7 @@
     },
     "devDependencies": {
         "@types/uuid": "^9.0.8",
-        "@types/node": "^18.11.3",
+        "@types/node": "^20.14.9",
         "uuid": "^9.0.1",
         "all-contributors-cli": "^6.26.1",
         "esbuild": "^0.20.2",
