@@ -1,0 +1,66 @@
+# ---------------------------------------------------------------------------------------
+#   @parent     : github workflow
+#   @desc       : grabs the latest version of your github release, and creates an
+#                 additional tag called @latest
+#
+#                 useful for projects that involve creating github workflows that others
+#                 can use.
+#
+#   @author     : Aetherinox
+#   @url        : https://github.com/Aetherinox
+# ---------------------------------------------------------------------------------------
+
+name: "🏷️ Release › Create @latest Tag"
+run-name: "🏷️ Release › Create @latest Tag"
+
+# ---------------------------------------------------------------------------------------
+#   TRIGGERS
+# ---------------------------------------------------------------------------------------
+
+on:
+  release:
+    types:
+      - published
+      - edited
+
+# ---------------------------------------------------------------------------------------
+#   JOBS
+# ---------------------------------------------------------------------------------------
+
+jobs:
+    tag-release:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+        steps:
+
+            # ---------------------------------------------------------------------------------------
+            #   Job > Checkout
+            # ---------------------------------------------------------------------------------------
+
+            - name: "☑️ Checkout"
+              id: task_cloudflare_checkout
+              uses: actions/checkout@v4
+
+            # ---------------------------------------------------------------------------------------
+            #   Job > Update @latest
+            #
+            #   when publishing a new release and tag, this workflow ensures that you always have
+            #   a tag named @latest with the latest build of your application.
+            #
+            #   this is useful for projects like Github Workflows, because it allows a user to use
+            #   your github workflow and specify the @latest tag at the end of the workflow path.
+            #
+            #       https://github.com/Aetherinox/cloudflare-publish-action
+            #
+            #       - name: "☁️ Publish to Cloudflare Pages"
+            #         id: task_publish_push
+            #         uses: aetherinox/cloudflare-publish-action@latest
+            #                                                    ^^^^^^
+            # ---------------------------------------------------------------------------------------
+
+            - name: "🏷️ Update @latest build"
+              uses: Actions-R-Us/actions-tagger@latest
+              with:
+                  token: ${{ secrets.ADMINSERV_TOKEN_CL }}
+                  publish_latest_tag: true

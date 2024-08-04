@@ -1,49 +1,52 @@
 name: "Cloudflare Pages Publisher Action"
 description: "Publish files from a github branch to Cloudflare Pages"
+
 branding:
-  icon: "upload-cloud"
-  color: "orange"
+    icon: "upload-cloud"
+    color: "orange"
+
 inputs:
-  apiToken:
-    description: "Cloudflare API Token"
-    required: true
-  accountId:
-    description: "Cloudflare Account ID"
-    required: true
-  projectName:
-    description: "Name of the Pages project to upload to"
-    required: true
-  directory:
-    description: "Directory of static assets to upload. Use ./ if in base directory"
-    required: true
-  gitHubToken:
-    description: "GitHub Token"
-    required: false
-  branch:
-    description: "Name of the branch you want to deploy to"
-    required: false
-  workingDirectory:
-    description: "Working directory in which to run Wrangler. Use ./ if in base directory."
-    required: false
-  wranglerVersion:
-    description: "Version of Wrangler to use"
-    required: false
-    default: "2"
-  skipCaching:
-    description: "Skip asset caching which speeds up builds"
-    required: false
-  commitDirty:
-    description: "Whether or not the workspace should be considered dirty for this deployment"
-    required: false
-  commitMsg:
-    description: "The commit message to attach to this deployment"
-    required: false
-  environment:
-    description: "Environment to use for operations"
-    required: false
-  npmLatest:
-    description: "Use latest version of npm and wrangler"
-    required: false
+    apiToken:
+        description: "Cloudflare API Token"
+        required: true
+    accountId:
+        description: "Cloudflare Account ID"
+        required: true
+    projectName:
+        description: "Name of the Pages project to upload to"
+        required: true
+    directory:
+        description: "Directory of static assets to upload. Use ./ if in base directory"
+        required: true
+    gitHubToken:
+        description: "GitHub Token"
+        required: false
+    branch:
+        description: "Name of the branch you want to deploy to"
+        required: false
+    workingDirectory:
+        description: "Working directory in which to run Wrangler. Use ./ if in base directory."
+        required: false
+    wranglerVersion:
+        description: "Version of Wrangler to use"
+        required: false
+        default: "2"
+    skipCaching:
+        description: "Skip asset caching which speeds up builds"
+        required: false
+    commitDirty:
+        description: "Whether or not the workspace should be considered dirty for this deployment"
+        required: false
+    commitMsg:
+        description: "The commit message to attach to this deployment"
+        required: false
+    environment:
+        description: "Environment to use for operations"
+        required: false
+    npmLatest:
+        description: "Use latest version of npm and wrangler"
+        required: false
+
 runs:
-  using: "node20"
-  main: "index.js"
+    using: "node20"
+    main: "index.js"
