@@ -7,15 +7,16 @@
     This text will remain hidden when you submit your pull request.
 
     For your pull request title, use the format:
-        [BUG]: Brief title of the bug being fixed
-        [FEATURE]: Brief title of the feature being added
+        [BUG]:      Brief title of the bug being fixed
+        [FEATURE]:  Brief title of the feature being added
+        [DOCS]:     Brief title of the feature being added
 
     Failure to follow the above title format will result in your PR being ignored.
 
 -->
 
 # Pull Request
-<small>Check which topic best describes your contribution:</small>
+<small>Select which topic best describes your contribution:</small>
 
 - [ ] Feature
 - [ ] Bug
